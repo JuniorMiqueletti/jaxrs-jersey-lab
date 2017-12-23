@@ -9,14 +9,23 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 public class Server {
 
-	
-    public static void main(String[] args) throws IOException {
-    	
-    	ResourceConfig config = new ResourceConfig().packages("com.juniormiqueletti.store");
-    	
-        URI uri = URI.create("http://localhost:8080/");
-        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, config);
-        
-        System.out.println("Server running");
-    }
+	private HttpServer server;
+
+	public static void main(String[] args) throws IOException {
+		new Server().start();
+	}
+
+	public void start() {
+
+		ResourceConfig config = new ResourceConfig().packages("com.juniormiqueletti.store");
+
+		URI uri = URI.create("http://localhost:8080/");
+		server = GrizzlyHttpServerFactory.createHttpServer(uri, config);
+
+		System.out.println("Server running");
+	}
+
+	public void shutdown() {
+		server.shutdown();
+	}
 }
