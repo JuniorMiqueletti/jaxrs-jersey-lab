@@ -16,6 +16,7 @@ import com.thoughtworks.xstream.XStream;
 
 public class ProjectRSTest {
 
+	private static final String HTTP_LOCALHOST_8080 = "http://localhost:8080";
 	private static Server server;
 
 	@BeforeClass
@@ -32,11 +33,22 @@ public class ProjectRSTest {
 	@Test
 	public void getNameTest() {
 		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target("http://localhost:8080");
+		WebTarget target = client.target(HTTP_LOCALHOST_8080);
 		String content = target.path("project").request().get(String.class);
 
 		Project project = (Project) new XStream().fromXML(content);
 
+		assertTrue("My Store".equals(project.getName()));
+	}
+	
+	@Test
+	public void getProject1Test() {
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(HTTP_LOCALHOST_8080);
+		String content = target.path("project/1").request().get(String.class);
+		
+		Project project = (Project) new XStream().fromXML(content);
+		
 		assertTrue("My Store".equals(project.getName()));
 	}
 

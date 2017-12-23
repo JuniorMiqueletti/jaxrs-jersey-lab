@@ -29,4 +29,8 @@ public class ProjectDAO {
 	public Project remove(long id) {
 		return db.remove(id);
 	}
+
+	public Map<Long, Project> findAll() {
+		return db;
+	}
 }

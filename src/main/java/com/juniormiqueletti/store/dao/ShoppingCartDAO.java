@@ -33,6 +33,9 @@ public class ShoppingCartDAO {
 	public ShoppingCart find(Long id) {
 		return db.get(id);
 	}
+	public Map<Long, ShoppingCart> findAll() {
+		return db;
+	}
 	
 	public ShoppingCart remove(long id) {
 		return db.remove(id);

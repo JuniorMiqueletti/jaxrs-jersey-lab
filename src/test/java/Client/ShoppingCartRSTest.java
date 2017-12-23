@@ -16,6 +16,7 @@ import com.thoughtworks.xstream.XStream;
 
 public class ShoppingCartRSTest {
 
+	private static final String HTTP_LOCALHOST_8080 = "http://localhost:8080";
 	private static Server server;
 
 	@BeforeClass
@@ -32,7 +33,7 @@ public class ShoppingCartRSTest {
 	@Test
 	public void getStreetTest() {
 		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target("http://localhost:8080");
+		WebTarget target = client.target(HTTP_LOCALHOST_8080);
 		String content = target.path("shoppingcart").request().get(String.class);
 
 		ShoppingCart shoppingCart = (ShoppingCart) new XStream().fromXML(content);
@@ -40,5 +41,16 @@ public class ShoppingCartRSTest {
 		assertTrue("Homby St".equals(shoppingCart.getStreet()));
 
 	}
-
+	
+	@Test
+	public void getShoppingCart1Test() {
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(HTTP_LOCALHOST_8080);
+		String content = target.path("shoppingcart/1").request().get(String.class);
+		
+		ShoppingCart shoppingCart = (ShoppingCart) new XStream().fromXML(content);
+		
+		assertTrue("Homby St".equals(shoppingCart.getStreet()));
+		
+	}
 }
