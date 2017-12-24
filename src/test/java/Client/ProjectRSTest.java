@@ -1,5 +1,6 @@
 package Client;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import javax.ws.rs.client.Client;
@@ -67,8 +68,7 @@ public class ProjectRSTest {
 		Entity<String> entity = Entity.entity(xml, MediaType.APPLICATION_XML);
 		
 		Response response = target.path("project").request().post(entity);
-		
-		assertTrue("<status>sucess</status>".equals(response.readEntity(String.class)));
+		assertEquals(201, response.getStatus());
 	}
 
 }

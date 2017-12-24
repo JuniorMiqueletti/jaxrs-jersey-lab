@@ -1,14 +1,17 @@
 package com.juniormiqueletti.store.resource;
 
+import java.net.URI;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.juniormiqueletti.store.dao.ProjectDAO;
 import com.juniormiqueletti.store.domain.Project;
@@ -40,9 +43,12 @@ public class ProjectRS {
 	
 	@POST
 	@Produces(MediaType.APPLICATION_XML)
-    public String add(String content) {
+	@Consumes(MediaType.APPLICATION_XML)
+    public Response add(String content) {
 		Project project = (Project) new XStream().fromXML(content);
 		dao.add(project);
-		return "<status>sucess</status>";
+		
+		URI uri = URI.create("/project/" + project.getId());
+	    return Response.created(uri).build();
     }
 }
