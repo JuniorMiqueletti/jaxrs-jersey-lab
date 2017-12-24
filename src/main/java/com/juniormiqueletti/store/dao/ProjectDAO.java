@@ -16,12 +16,6 @@ public class ProjectDAO {
 		db.put(2l, new Project(2l, "Free course", 2018));
 	}
 
-	public void adiciona(Project project) {
-		long id = count.incrementAndGet();
-		project.setId(id);
-		db.put(id, project);
-	}
-
 	public Project find(Long id) {
 		return db.get(id);
 	}
@@ -38,5 +32,9 @@ public class ProjectDAO {
 		long id = count.incrementAndGet();
 		project.setId(id);
 		db.put(id, project);
+	}
+
+	public Project delete(long id) {
+		return db.remove(id);
 	}
 }

@@ -3,6 +3,9 @@ package Client;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -16,6 +19,7 @@ import org.junit.Test;
 
 import com.juniormiqueletti.store.app.Server;
 import com.juniormiqueletti.store.domain.Project;
+import com.juniormiqueletti.store.domain.ShoppingCart;
 import com.thoughtworks.xstream.XStream;
 
 public class ProjectRSTest {
@@ -70,5 +74,4 @@ public class ProjectRSTest {
 		Response response = target.path("project").request().post(entity);
 		assertEquals(201, response.getStatus());
 	}
-
 }

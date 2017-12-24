@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -51,4 +52,11 @@ public class ProjectRS {
 		URI uri = URI.create("/project/" + project.getId());
 	    return Response.created(uri).build();
     }
+	
+	@Path("{id}")
+	@DELETE
+	public Response deleteProduct(@PathParam("id") long id) {
+		Project project = dao.delete(id);
+		return Response.ok().build();
+	}
 }

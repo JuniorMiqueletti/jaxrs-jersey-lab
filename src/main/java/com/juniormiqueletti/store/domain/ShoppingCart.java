@@ -1,6 +1,7 @@
 package com.juniormiqueletti.store.domain;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -99,6 +100,15 @@ public class ShoppingCart {
 	}
 
 	public String toJson() {
-		 return new Gson().toJson(this);
+		return new Gson().toJson(this);
+	}
+
+	public void remove(long productId) {
+		for (Iterator iterator = products.iterator(); iterator.hasNext();) {
+			Product product = (Product) iterator.next();
+			if (product.getId() == id) {
+				iterator.remove();
+			}
+		}
 	}
 }
