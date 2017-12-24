@@ -33,4 +33,10 @@ public class ProjectDAO {
 	public Map<Long, Project> findAll() {
 		return db;
 	}
+
+	public void add(Project project) {
+		long id = count.incrementAndGet();
+		project.setId(id);
+		db.put(id, project);
+	}
 }

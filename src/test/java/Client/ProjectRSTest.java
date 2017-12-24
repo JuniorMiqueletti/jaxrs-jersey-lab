@@ -4,7 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -50,6 +53,22 @@ public class ProjectRSTest {
 		Project project = (Project) new XStream().fromXML(content);
 		
 		assertTrue("My Store".equals(project.getName()));
+	}
+	
+	@Test
+	public void postProjectTest() {
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(HTTP_LOCALHOST_8080);
+		
+		Project project = new Project(1l, "Old Software", 2017);
+		
+		String xml = project.toXML();
+		
+		Entity<String> entity = Entity.entity(xml, MediaType.APPLICATION_XML);
+		
+		Response response = target.path("project").request().post(entity);
+		
+		assertTrue("<status>sucess</status>".equals(response.readEntity(String.class)));
 	}
 
 }
