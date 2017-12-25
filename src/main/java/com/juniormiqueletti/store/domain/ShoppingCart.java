@@ -12,7 +12,7 @@ public class ShoppingCart {
 	private Long id;
 	private String street;
 	private String city;
-	private List<Product> products = new ArrayList<Product>();
+	private List<Product> products = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -95,6 +95,15 @@ public class ShoppingCart {
 		return this;
 	}
 
+	public void remove(long productId) {
+		for (Iterator<Product> iterator = products.iterator(); iterator.hasNext();) {
+			Product product = iterator.next();
+			if (product.getId() == productId) {
+				iterator.remove();
+			}
+		}
+	}
+
 	public String toXML() {
 		return new XStream().toXML(this);
 	}
@@ -103,11 +112,17 @@ public class ShoppingCart {
 		return new Gson().toJson(this);
 	}
 
-	public void remove(long productId) {
-		for (Iterator iterator = products.iterator(); iterator.hasNext();) {
-			Product product = (Product) iterator.next();
-			if (product.getId() == id) {
-				iterator.remove();
+	public void change(Product product) {
+		remove(product.getId());
+		add(product);
+	}
+
+	public void changeQuantity(Product product) {
+		for (Iterator<Product> iterator = products.iterator(); iterator.hasNext();) {
+			Product p = iterator.next();
+			if (p.getId() == product.getId()) {
+				p.setQuantity(product.getQuantity());
+				return;
 			}
 		}
 	}

@@ -8,7 +8,7 @@ import com.juniormiqueletti.store.domain.Project;
 
 public class ProjectDAO {
 
-	private static Map<Long, Project> db = new HashMap<Long, Project>();
+	private static Map<Long, Project> db = new HashMap<>();
 	private static AtomicLong count = new AtomicLong(1);
 
 	static {

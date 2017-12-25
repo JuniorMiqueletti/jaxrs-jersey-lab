@@ -56,7 +56,7 @@ public class ProjectRS {
 	@Path("{id}")
 	@DELETE
 	public Response deleteProduct(@PathParam("id") long id) {
-		Project project = dao.delete(id);
+		dao.delete(id);
 		return Response.ok().build();
 	}
 }
