@@ -9,7 +9,7 @@ import com.juniormiqueletti.store.domain.ShoppingCart;
 
 public class ShoppingCartDAO {
 	
-	private static Map<Long, ShoppingCart> db = new HashMap<>();
+	private static Map<Long, ShoppingCart> db = new HashMap<Long, ShoppingCart>();
 	private static AtomicLong count = new AtomicLong(1);
 	
 	static {

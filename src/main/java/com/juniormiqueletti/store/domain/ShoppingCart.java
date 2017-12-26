@@ -12,7 +12,7 @@ public class ShoppingCart {
 	private Long id;
 	private String street;
 	private String city;
-	private List<Product> products = new ArrayList<>();
+	private List<Product> products = new ArrayList<Product>();
 
 	public Long getId() {
 		return id;
