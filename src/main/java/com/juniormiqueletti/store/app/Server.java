@@ -26,5 +26,6 @@ public class Server {
 
 	public void shutdown() {
 		httpServer.shutdown();
+		System.out.println("Server stopped");
 	}
 }

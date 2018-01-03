@@ -1,6 +1,8 @@
 package com.juniormiqueletti.store.resource;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,12 +13,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.juniormiqueletti.store.dao.ProjectDAO;
 import com.juniormiqueletti.store.domain.Project;
-import com.thoughtworks.xstream.XStream;
 
 @Path("project")
 public class ProjectRS {
@@ -25,28 +27,31 @@ public class ProjectRS {
 
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
-	public String findAll() {
+	public Response findAll() {
 		Map<Long, Project> projects = dao.findAll();
-		String allCarts = "";
+		List<Project> projectList = new ArrayList<Project>();
+	
 		for (Entry<Long, Project> project : projects.entrySet()) {
-			allCarts += project.getValue().toXML();
+			projectList.add(project.getValue());
 		}
-		return allCarts;
+		
+		GenericEntity<List<Project>> entity = new GenericEntity<List<Project>>(projectList) {};
+		
+		return Response.ok(entity).build();
 	}
 
 	@Path("{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
-	public String find(@PathParam("id") Long id) {
+	public Project find(@PathParam("id") Long id) {
 		Project project = dao.find(id);
-		return project.toXML();
+		return project;
 	}
 	
 	@POST
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_XML)
-    public Response add(String content) {
-		Project project = (Project) new XStream().fromXML(content);
+    public Response add(Project project) {
 		dao.add(project);
 		
 		URI uri = URI.create("/project/" + project.getId());

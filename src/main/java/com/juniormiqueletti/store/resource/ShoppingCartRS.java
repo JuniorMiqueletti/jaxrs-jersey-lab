@@ -1,6 +1,8 @@
 package com.juniormiqueletti.store.resource;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,13 +14,13 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.juniormiqueletti.store.dao.ShoppingCartDAO;
 import com.juniormiqueletti.store.domain.Product;
 import com.juniormiqueletti.store.domain.ShoppingCart;
-import com.thoughtworks.xstream.XStream;
 
 @Path("shoppingcart")
 public class ShoppingCartRS {
@@ -27,29 +29,30 @@ public class ShoppingCartRS {
 
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
-	public String findAll() {
-		Map<Long, ShoppingCart> shoppingCart = dao.findAll();
+	public Response findAll() {
+		Map<Long, ShoppingCart> carts = dao.findAll();
 
-		String allCarts = "";
-		for (Entry<Long, ShoppingCart> cart : shoppingCart.entrySet()) {
-			allCarts += cart.getValue().toXML();
+		List<ShoppingCart> cartsList = new ArrayList<ShoppingCart>(); 
+		for (Entry<Long, ShoppingCart> cart : carts.entrySet()) {
+			cartsList.add(cart.getValue());
 		}
-		return allCarts;
+		GenericEntity<List<ShoppingCart>> entity = new GenericEntity<List<ShoppingCart>>(cartsList) {};
+
+		return Response.ok(entity).build();
 	}
 
 	@Path("{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
-	public String find(@PathParam("id") Long id) {
+	public ShoppingCart find(@PathParam("id") Long id) {
 		ShoppingCart shoppingCart = dao.find(id);
-		return shoppingCart.toXML();
+		return shoppingCart;
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_XML)
-	public Response add(String content) {
-		ShoppingCart cart = (ShoppingCart) new XStream().fromXML(content);
+	public Response add(ShoppingCart cart) {
 		dao.add(cart);
 
 		URI uri = URI.create("/shoppingcart/" + cart.getId());
@@ -66,9 +69,8 @@ public class ShoppingCartRS {
 
 	@Path("{id}/products/{productId}/quantity")
 	@PUT
-	public Response changeProduct(@PathParam("id") long id, @PathParam("productId") long productId, String content) {
+	public Response changeProduct(@PathParam("id") long id, @PathParam("productId") long productId, Product product) {
 		ShoppingCart cart = dao.find(id);
-		Product product = (Product) new XStream().fromXML(content);
 
 		cart.changeQuantity(product);
 

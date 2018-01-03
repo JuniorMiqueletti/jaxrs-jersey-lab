@@ -1,11 +1,21 @@
 package com.juniormiqueletti.store.domain;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Product {
 
 	private long id;
 	private String name;
 	private double price;
 	private int quantity;
+
+	public Product() {
+		super();
+	}
 
 	public Product(int id, String name, double price, int quantity) {
 		this.id = id;

@@ -22,6 +22,16 @@ public class ShoppingCartDAO {
 								.setId(1l);
 		
 		db.put(1l, ShoppingCart);
+
+		Product game2 = new Product(6237, "Game 7", 7777, 2);
+		Product sportGame2 = new Product(3467, "Sport Game Two", 160, 2);
+		ShoppingCart ShoppingCart2 = new ShoppingCart()
+				.add(game2)
+				.add(sportGame2)
+				.to("Homby St", "Vancouver")
+				.setId(2l);
+		
+		db.put(2l, ShoppingCart2);
 	}
 	
 	public void add(ShoppingCart ShoppingCart) {
